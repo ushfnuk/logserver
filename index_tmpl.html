@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <button id="button">Очистить лог</button>
+    <br />
+    <div id="content"><%= content %></div>
+    
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var button = document.getElementById('button'),
+            content = document.getElementById('content');
+            
+        var server = io.connect('http://logserver.ushfnuk.c9.io');
+    
+        server.on('clear', function() {
+            content.innerHTML = '';
+        });
+        
+        server.on('show', function(json) {
+            content.innerHTML += '<p>' + json + '</p>';
+        });
+    
+        button.addEventListener('click', function() {
+            server.emit('clear');
+        }, false);
+    </script>
+</body>
+</html>
